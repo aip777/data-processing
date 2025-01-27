@@ -1,12 +1,33 @@
 import pandas as pd
 import os
 import re
+import requests
 
 supplier_csv_path = "data/supplier_data.csv"
-output_csv_path = "data/system_data.csv"
-
+output_csv_path = "data/new-formated.csv"
+output_folder = "images"
 data = pd.read_csv(supplier_csv_path, encoding='latin1')
+os.makedirs(output_folder, exist_ok=True)
 
+def download_image(save_path):
+    try:
+        for _row in range(33,36):
+            for i, image_url in enumerate(data.iloc[:, _row]):
+                if pd.notna(image_url) and image_url.strip():
+                    image_url = image_url.strip()
+                    image_name = os.path.basename(image_url)
+                    save_path = os.path.join(output_folder, image_name)
+                response = requests.get(image_url, stream=True, timeout=10)
+                if response.status_code == 200:
+                    with open(save_path, 'wb') as f:
+                        for chunk in response.iter_content(1024):
+                            f.write(chunk)
+                    print(f"Downloaded: {save_path}")
+                else:
+                    print(f"Failed to download {image_url} - Status code: {response.status_code}")
+    except Exception as e:
+        print(f"Error downloading {e}")
+download_image(output_folder)
 def generate_handle(description):
     description = re.sub(r'\s+', '-', description)
     description = re.sub(r'[/.]', '-', description)
@@ -17,6 +38,8 @@ def generate_handle(description):
 
 def process_image(image_column):
     if pd.notna(image_column) and image_column.strip() != "":
+        save_path = os.path.join(output_folder, image_column.strip())
+        download_image('image_url', save_path)
         return f"https://cdn.shopify.com/s/files/1/0673/7775/8363/files/{image_column.strip()}"
     return ""
 
