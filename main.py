@@ -17,7 +17,7 @@ def download_image(save_path):
                     image_url = image_url.strip()
                     image_name = os.path.basename(image_url)
                     save_path = os.path.join(output_folder, image_name)
-                response = requests.get(image_url, stream=True, timeout=10)
+                response = requests.get(image_url, stream=True, timeout=30)
                 if response.status_code == 200:
                     with open(save_path, 'wb') as f:
                         for chunk in response.iter_content(1024):
