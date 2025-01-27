@@ -38,8 +38,6 @@ def generate_handle(description):
 
 def process_image(image_column):
     if pd.notna(image_column) and image_column.strip() != "":
-        save_path = os.path.join(output_folder, image_column.strip())
-        download_image('image_url', save_path)
         return f"https://cdn.shopify.com/s/files/1/0673/7775/8363/files/{image_column.strip()}"
     return ""
 
