@@ -27,7 +27,6 @@ def download_image(save_path):
                         print(f"Failed to download {image_url} - Status code: {response.status_code}")
     except Exception as e:
         print(f"Error downloading {e}")
-download_image(output_folder)
 def generate_handle(description):
     description = re.sub(r'\s+', '-', description)
     description = re.sub(r'[/.]', '-', description)
@@ -106,5 +105,5 @@ mapped_data = pd.DataFrame({
     "Status": "active"
 })
 mapped_data.to_csv(output_csv_path, index=False)
-
 print(f"Data has been successfully transformed and saved to {os.path.abspath(output_csv_path)}")
+download_image(output_folder)
