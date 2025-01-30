@@ -9,7 +9,7 @@ output_folder = "images"
 data = pd.read_csv(supplier_csv_path, encoding='latin1')
 os.makedirs(output_folder, exist_ok=True)
 
-def download_image(save_path):
+def download_image(output_folder):
     try:
         for _row in range(33,36):
             for i, image_url in enumerate(data.iloc[:, _row]):
