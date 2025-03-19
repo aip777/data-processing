@@ -154,7 +154,7 @@ def process_csv(file_path):
 def process_image_csv(file_path):
     image_directory = MIMAGES_DIR
     output_csv = os.path.join(OUTPUT_DIR, "output.csv")
-    available_images = set(os.listdir(image_directory))
+    # available_images = set(os.listdir(image_directory))
     with open(file_path, mode="r", newline="") as infile, open(output_csv, mode="w", newline="") as outfile:
         reader = csv.reader(infile)
         writer = csv.writer(outfile)
@@ -164,7 +164,7 @@ def process_image_csv(file_path):
         for row in reader:
             image_name = row[0].strip()
             image_name = f'{image_name}.jpg'
-            row.append(image_name if image_name in available_images else "")
+            row.append(image_name if image_name else "")
             writer.writerow(row)
     return output_csv
 
