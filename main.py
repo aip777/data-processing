@@ -13,10 +13,12 @@ from datetime import datetime
 app = FastAPI()
 UPLOAD_DIR = "uploads"
 OUTPUT_DIR = "outputs"
-IMAGES_DIR = "outputs/images"
+EIMAGES_DIR = "outputs/electronics-images"
+MIMAGES_DIR = "outputs/medical-images"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 os.makedirs(OUTPUT_DIR, exist_ok=True)
-os.makedirs(IMAGES_DIR, exist_ok=True)
+os.makedirs(EIMAGES_DIR, exist_ok=True)
+os.makedirs(MIMAGES_DIR, exist_ok=True)
 
 
 def generate_handle(description):
@@ -145,12 +147,12 @@ def process_csv(file_path):
     output_csv = os.path.join(OUTPUT_DIR, "formatted-{0}.csv".format(datetime.now().strftime("%Y-%m-%d %H-%M-%S")))
     mapped_data.to_csv(output_csv, index=False)
 
-    download_images(data, IMAGES_DIR)
+    download_images(data, EIMAGES_DIR)
     return output_csv
 
 
 def process_image_csv(file_path):
-    image_directory = IMAGES_DIR
+    image_directory = MIMAGES_DIR
     output_csv = os.path.join(OUTPUT_DIR, "output.csv")
     available_images = set(os.listdir(image_directory))
     with open(file_path, mode="r", newline="") as infile, open(output_csv, mode="w", newline="") as outfile:

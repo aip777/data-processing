@@ -11,7 +11,7 @@ from pathlib import Path
 app = FastAPI()
 UPLOAD_DIR = "uploads"
 OUTPUT_DIR = "outputs"
-IMAGES_DIR = "outputs/images"
+IMAGES_DIR = "outputs/electronics-images"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 os.makedirs(IMAGES_DIR, exist_ok=True)
