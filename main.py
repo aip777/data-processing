@@ -190,7 +190,7 @@ async def upload_file(file: UploadFile = File(...)):
     return FileResponse(zip_path, filename="processed_data.zip", media_type="application/zip")
 
 
-@app.post("/upload-image-csv/")
+@app.post("/upload-medical-image-csv/")
 async def upload_image_csv(file: UploadFile = File(...)):
     file_name = "product-list-{0}.csv".format(datetime.now().strftime("%Y-%m-%d %H-%M-%S"))
     file_path = os.path.join(UPLOAD_DIR, file_name)
