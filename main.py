@@ -190,10 +190,10 @@ async def upload_file(file: UploadFile = File(...)):
 
 @app.post("/upload-image-csv/")
 async def upload_image_csv(file: UploadFile = File(...)):
-    file_path = os.path.join(UPLOAD_DIR, file.filename)
+    file_name = "product-list-{0}.csv".format(datetime.now().strftime("%Y-%m-%d %H-%M-%S"))
+    file_path = os.path.join(UPLOAD_DIR, file_name)
     with open(file_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
 
     output_csv = process_image_csv(file_path)
-    file_name = "product-list-{0}.csv".format(datetime.now().strftime("%Y-%m-%d %H-%M-%S"))
     return FileResponse(output_csv, filename=file_name, media_type="text/csv")
