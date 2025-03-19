@@ -144,15 +144,15 @@ def process_csv(file_path):
         "Status": "active"
     })
 
-    output_csv = os.path.join(OUTPUT_DIR, "dh-electronics-product-list-{0}.csv".format(datetime.now().strftime("%Y-%m-%d %H-%M-%S")))
+    output_csv = os.path.join(OUTPUT_DIR, "cms-medical-product-list-{0}.csv".format(datetime.now().strftime("%Y-%m-%d %H-%M-%S")))
     mapped_data.to_csv(output_csv, index=False)
 
-    download_images(data, EIMAGES_DIR)
+    download_images(data, MIMAGES_DIR)
     return output_csv
 
 
 def process_image_csv(file_path):
-    image_directory = MIMAGES_DIR
+    image_directory = EIMAGES_DIR
     output_csv = os.path.join(OUTPUT_DIR, "output.csv")
     # available_images = set(os.listdir(image_directory))
     with open(file_path, mode="r", newline="") as infile, open(output_csv, mode="w", newline="") as outfile:
@@ -179,7 +179,7 @@ def create_zip():
     return zip_path
 
 
-@app.post("/upload-electronics-dh-csv/")
+@app.post("/upload-cms-medical-csv/")
 async def upload_file(file: UploadFile = File(...)):
     file_path = os.path.join(UPLOAD_DIR, file.filename)
     with open(file_path, "wb") as buffer:
@@ -190,9 +190,9 @@ async def upload_file(file: UploadFile = File(...)):
     return FileResponse(zip_path, filename="processed_data.zip", media_type="application/zip")
 
 
-@app.post("/upload-medical-csv/")
+@app.post("/upload-electronics-csv/")
 async def upload_image_csv(file: UploadFile = File(...)):
-    file_name = "cms-medical-product-list-{0}.csv".format(datetime.now().strftime("%Y-%m-%d %H-%M-%S"))
+    file_name = "dh-electronics-product-list-{0}.csv".format(datetime.now().strftime("%Y-%m-%d %H-%M-%S"))
     file_path = os.path.join(UPLOAD_DIR, file_name)
     with open(file_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
