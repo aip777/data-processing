@@ -8,6 +8,7 @@ import shutil
 import zipfile
 import csv
 from pathlib import Path
+from datetime import datetime
 
 app = FastAPI()
 UPLOAD_DIR = "uploads"
@@ -141,7 +142,7 @@ def process_csv(file_path):
         "Status": "active"
     })
 
-    output_csv = os.path.join(OUTPUT_DIR, "formatted.csv")
+    output_csv = os.path.join(OUTPUT_DIR, "formatted-{0}.csv".format(datetime.now().strftime("%Y-%m-%d %H-%M-%S")))
     mapped_data.to_csv(output_csv, index=False)
 
     download_images(data, IMAGES_DIR)
@@ -194,4 +195,5 @@ async def upload_image_csv(file: UploadFile = File(...)):
         shutil.copyfileobj(file.file, buffer)
 
     output_csv = process_image_csv(file_path)
-    return FileResponse(output_csv, filename="output.csv", media_type="text/csv")
+    file_name = "product-list-{0}.csv".format(datetime.now().strftime("%Y-%m-%d %H-%M-%S"))
+    return FileResponse(output_csv, filename=file_name, media_type="text/csv")
