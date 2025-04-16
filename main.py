@@ -160,11 +160,16 @@ def process_image_csv(file_path):
         writer = csv.writer(outfile)
         header = next(reader)
         header.append("image")
+        header.append("images-url")
         writer.writerow(header)
         for row in reader:
             image_name = row[0].strip()
+            if not image_name:
+                continue
             image_name = f'{image_name}.jpg'
             row.append(image_name if image_name else "")
+            images_url = f'https://www.dandh.com/images/prod300/{image_name}'
+            row.append(images_url if images_url else "")
             writer.writerow(row)
     return output_csv
 
